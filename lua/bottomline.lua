@@ -62,7 +62,7 @@ local function get_lspinfo()
     for _, s in ipairs(map) do
         local count = #vim.diagnostic.get(0, {severity = s[1]})
         if count ~=0 then
-            ret = string.format("%s %s:%s ", ret, s[2], count)
+            ret = string.format("%s %s%s ", ret, s[2], count)
         end
     end
     if not (ret == "") then

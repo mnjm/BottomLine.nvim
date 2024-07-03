@@ -25,10 +25,10 @@ local default_config = {
         changed = "~",
     },
     lsp_symbols = {
-        error = "Err",
-        warn = "Wrn",
-        info = "Info",
-        hint = "Hint",
+        error = "E:",
+        warn = "W:",
+        info = "I:",
+        hint = "H:",
     },
     -- bottomline highlights
     highlights = {

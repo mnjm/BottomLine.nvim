@@ -26,7 +26,7 @@ Plug 'nvim-tree/nvim-web-devicons'
 ```lua
 use {
     'mnjm/winline.nvim',
-    -- optional dependency for icons 
+    -- optional dependency for icons
     requires = {  { 'lewis6991/gitsigns.nvim', opt = true },
         {'nvim-tree/nvim-web-devicons', opt = true } }
 }
@@ -82,10 +82,10 @@ require('bottomline').setup({
         changed = "~",
     },
     lsp_symbols = {
-        error = "Err",
-        warn = "Wrn",
-        info = "Info",
-        hint = "Hint",
+        error = "E:",
+        warn = "W:",
+        info = "I:",
+        hint = "H:",
     },
     -- bottomline highlights
     highlights = {
