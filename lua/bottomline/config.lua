@@ -18,6 +18,7 @@ local default_config = {
     enable_git = true,                    -- enable git section
     enable_lsp = true,                    -- enable lsp section
     display_buf_no = false,               -- add additional buf number section at the end of statusline
+    center_file_path = true,              -- display file path in center
     git_symbols = {
         branch = "",
         added = "+",

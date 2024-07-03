@@ -18,7 +18,9 @@ local hl_transitions = {
     -- active
     {'BLMode', 'BLGitInfo'},
     {'BLMode', 'BLFill'},
+    {'BLMode', 'BLFile'},
     {'BLGitInfo', 'BLFill'},
+    {'BLGitInfo', 'BLFile'},
     {'BLFile', 'BLFill'},
     {'BLLspInfo', 'BLFill'},
     {'BLFileType', 'BLFill'},

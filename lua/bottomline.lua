@@ -42,8 +42,7 @@ local function get_gitinfo()
         end
     end
     ret = string.format("%%#BLGitInfo#%s %s %s ", ret, M.config.git_symbols.branch, gitsigns.head)
-    -- add section seperators
-    return ret .. seperators.get_seperator("BLGitInfo", "BLFill", 1)
+    return ret
 end
 
 -- Gets current buf lsp info if available
@@ -77,7 +76,7 @@ end
 -- @return filepath with highlights and seperators
 local function get_filepath(icon, active_flag)
     local hl = active_flag and "BLFile" or "BLFileInactive"
-    local left_sep = seperators.get_seperator(hl, "BLFill", 2)
+    local left_sep = M.config.center_file_path and seperators.get_seperator(hl, "BLFill", 2) or ""
     local right_sep = seperators.get_seperator(hl, "BLFill", 1)
     local filepath = "%<%f%m%r%h%w"
     return string.format("%s%%#%s# %s %s %s", left_sep, hl, icon, filepath, right_sep)
@@ -125,19 +124,20 @@ end
 -- active statusline generator
 -- @return active statusline string
 M.active = function()
-    local icon = get_icon(vim.fn.expand("%p"))
+    local mode = get_mode()
     local gitinfo = get_gitinfo()
-    local mode_sep = seperators.get_seperator("BLMode",
-        gitinfo == "" and "BLFill" or "BLGitInfo", 1)
+    local to_fill_or_file = M.config.center_file_path and "BLFill" or "BLFile"
+    local mode_sep = seperators.get_seperator("BLMode", gitinfo == "" and to_fill_or_file or "BLGitInfo", 1)
+    local gitinfo_sep = gitinfo == "" and "" or seperators.get_seperator("BLGitInfo", to_fill_or_file, 1)
+    local icon = get_icon(vim.fn.expand("%p"))
     local lspinfo = get_lspinfo()
-    local ft_sep = seperators.get_seperator("BLFileType",
-        lspinfo == "" and "BLFill" or "BLLspInfo", 2)
+    local ft_sep = seperators.get_seperator("BLFileType", lspinfo == "" and "BLFill" or "BLLspInfo", 2)
     local ret = table.concat {
-        get_mode(), mode_sep,           -- mode
-        gitinfo,                        -- git info
-        "%#BLFill#", "%=",              -- filler
-        get_filepath(icon, true),       -- filepath
-        "%#BLFill#", "%=",              -- filler
+        mode, mode_sep,                                                     -- mode
+        gitinfo, gitinfo_sep,                                               -- git info
+        M.config.center_file_path and "%#BLFill#%=" or "",                  -- filler
+        get_filepath(icon, true),                                           -- filepath
+        "%#BLFill#%=",                                                      -- filler
         lspinfo,
         ft_sep, get_filetype(icon),
         get_lineinfo(),
@@ -156,9 +156,9 @@ end
 M.inactive = function()
     local icon = get_icon(vim.fn.expand("%p"))
     return table.concat {
-        "%#BLFill#", "%=",
+        M.config.center_file_path and "%#BLFill#%=" or "",                  -- filler,
         get_filepath(icon, false),
-        "%#BLFill#", "%=",
+        "%#BLFill#%=",                  -- filler
         get_buffernumber(false) and M.config.display_buf_no or "",
     }
 end
